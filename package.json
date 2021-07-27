@@ -2,7 +2,8 @@
   "name": "nextjs-commerce",
   "version": "1.0.0",
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev
+    "production": "NODE_OPTIONS='--max-old-space-size=4096' next start -p 3000",
     "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
     "start": "NODE_OPTIONS='--max-old-space-size=4096' next start",
     "analyze": "BUNDLE_ANALYZE=both yarn build",
