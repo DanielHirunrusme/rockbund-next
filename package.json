@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
-    "start": "next start",
+    "start": "NODE_OPTIONS='--max-old-space-size=4096' next start",
     "analyze": "BUNDLE_ANALYZE=both yarn build",
     "prettier-fix": "prettier --write .",
     "find:unused": "npx next-unused",
