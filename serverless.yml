@@ -1,0 +1,15 @@
+component: nextjs
+name: rockbund-next
+app: appDemo
+
+inputs:
+  src: ./
+  exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: Nodejs10.15
+  apigatewayConf:
+    protocols:
+      - http
+      - https
+    environment: release
