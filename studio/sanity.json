@@ -5,7 +5,8 @@
     "dataset": "production"
   },
   "project": {
-    "name": "Rockbund"
+    "name": "Rockbund",
+    "basePath": "/studio"
   },
   "plugins": [
     "@sanity/base",
