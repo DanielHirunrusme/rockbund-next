@@ -4,6 +4,12 @@ import { ProductCard } from '@components/product'
 import { Grid, Marquee, Hero } from '@components/ui'
 // import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
+import client from '../lib/sanity'
+
+const cloudinaryQuery = `*[_id == "88beba7e-37cd-4f8e-9cd6-27cc87bd3e02"] {
+  image,
+  video
+}`
 
 export async function getStaticProps({
   preview,
@@ -11,6 +17,7 @@ export async function getStaticProps({
   locales,
 }: GetStaticPropsContext) {
   const config = { locale, locales }
+  const cloudinary = await client.fetch(cloudinaryQuery)
   const productsPromise = commerce.getAllProducts({
     variables: { first: 6 },
     config,
@@ -30,6 +37,7 @@ export async function getStaticProps({
       categories,
       brands,
       pages,
+      cloudinary,
     },
     revalidate: 60,
   }
@@ -37,9 +45,22 @@ export async function getStaticProps({
 
 export default function Home({
   products,
+  cloudinary,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  console.log({ cloudinary })
   return (
     <>
+      {cloudinary && cloudinary[0] && (
+        <div>
+          <img src={cloudinary[0].image.url} />
+          <video autoPlay playsInline muted controls>
+            <source
+              src={cloudinary[0].video.url}
+              type={`video/${cloudinary[0].video.format}`}
+            />
+          </video>
+        </div>
+      )}
       <Grid variant="filled">
         {products.slice(0, 3).map((product: any, i: number) => (
           <ProductCard
@@ -52,15 +73,15 @@ export default function Home({
           />
         ))}
       </Grid>
-      <Marquee variant="secondary">
+      {/* <Marquee variant="secondary">
         {products.slice(0, 3).map((product: any, i: number) => (
           <ProductCard key={product.id} product={product} variant="slim" />
         ))}
-      </Marquee>
-      <Hero
+      </Marquee> */}
+      {/* <Hero
         headline=" Dessert dragée halvah croissant."
         description="Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. Soufflé bonbon caramels jelly beans. Tiramisu sweet roll cheesecake pie carrot cake. "
-      />
+      /> */}
       <Grid layout="B" variant="filled">
         {products.slice(0, 3).map((product: any, i: number) => (
           <ProductCard
@@ -73,11 +94,11 @@ export default function Home({
           />
         ))}
       </Grid>
-      <Marquee>
+      {/* <Marquee>
         {products.slice(3).map((product: any, i: number) => (
           <ProductCard key={product.id} product={product} variant="slim" />
         ))}
-      </Marquee>
+      </Marquee> */}
       {/* <HomeAllProductsGrid
         newestProducts={products}
         categories={categories}
