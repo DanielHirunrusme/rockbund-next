@@ -60,6 +60,7 @@
     "@graphql-codegen/typescript-operations": "^1.18.1",
     "@next/bundle-analyzer": "^10.2.3",
     "@sanity/cli": "^2.13.1",
+    "@sanity/core": "^2.13.1",
     "@types/body-scroll-lock": "^2.6.1",
     "@types/cookie": "^0.4.0",
     "@types/js-cookie": "^2.2.6",
