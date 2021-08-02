@@ -11,6 +11,14 @@ const isSaleor = provider === 'saleor'
 const isSwell = provider === 'swell'
 const isVendure = provider === 'vendure'
 
+const STUDIO_REWRITE = {
+  source: '/studio/:path*',
+  destination:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3333/studio/:path*'
+      : '/studio/index.html',
+}
+
 module.exports = withCommerceConfig({
   commerce,
   i18n: {
@@ -19,6 +27,9 @@ module.exports = withCommerceConfig({
   },
   rewrites() {
     return [
+      // sanity self hosted
+      STUDIO_REWRITE,
+      // vercel commerce
       (isBC || isShopify || isSwell || isVendure) && {
         source: '/checkout',
         destination: '/api/checkout',
@@ -32,10 +43,10 @@ module.exports = withCommerceConfig({
       // For Vendure, rewrite the local api url to the remote (external) api url. This is required
       // to make the session cookies work.
       isVendure &&
-        process.env.NEXT_PUBLIC_VENDURE_LOCAL_URL && {
-          source: `${process.env.NEXT_PUBLIC_VENDURE_LOCAL_URL}/:path*`,
-          destination: `${process.env.NEXT_PUBLIC_VENDURE_SHOP_API_URL}/:path*`,
-        },
+      process.env.NEXT_PUBLIC_VENDURE_LOCAL_URL && {
+        source: `${process.env.NEXT_PUBLIC_VENDURE_LOCAL_URL}/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_VENDURE_SHOP_API_URL}/:path*`,
+      },
     ].filter(Boolean)
   },
 })
